@@ -1,5 +1,5 @@
 // File: Mint.g4
-// Author: Kiran Venkatachalam 
+// Author: Kiran Venkatachalam , Monisha Krishnamurthy
 // Purpose: Grammar definition for Mint language parser using ANTLR4 (Milestone 2)
 // Version: 1.0
 
@@ -62,3 +62,60 @@ IDENTIFIER    : [a-zA-Z_][a-zA-Z_0-9]*;
 
 WS            : [ \t\r\n]+ -> skip;
 LINE_COMMENT  : '//' ~[\r\n]* -> skip;
+
+// =====================
+// Parser Rules
+// =====================
+
+program
+    : statement* EOF
+    ;
+
+statement
+    : declaration
+    | assignment
+    | printStatement
+    | ifStatement
+    | whileLoop
+    | forLoop
+    ;
+
+declaration
+    : type IDENTIFIER (ASSIGN expression)? SEMI
+    ;
+
+assignment
+    : IDENTIFIER ASSIGN expression SEMI
+    ;
+
+printStatement
+    : SAY LPAREN expression RPAREN SEMI
+    | SAYLN LPAREN expression RPAREN SEMI
+    ;
+
+ifStatement
+    : MINT_IF LPAREN expression RPAREN block
+      (MINT_ELSEIF LPAREN expression RPAREN block)*
+      (MINT_ELSE block)?
+    ;
+
+whileLoop
+    : MINT_WHILE LPAREN expression RPAREN block
+    ;
+
+forLoop
+    : MINT_FOR LPAREN assignment expression SEMI assignment RPAREN block
+    ;
+
+//expression TBD
+
+block
+    : LBRACE statement* RBRACE
+    ;
+
+type
+    : INT_TYPE
+    | FLOAT_TYPE
+    | STRING_TYPE
+    | BOOL_TYPE
+    ;
