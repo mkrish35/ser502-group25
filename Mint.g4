@@ -1,7 +1,7 @@
 // File: Mint.g4
 // Author: Kiran Venkatachalam, Monisha Krishnamurthy, Rahul Ravindra Reddy
 // Purpose: Grammar definition for Mint language parser using ANTLR4 (Milestone 2)
-// Version: 1.0
+// Version: 4.0
 // Date: April 14, 2025
 
 grammar Mint;
