@@ -1,7 +1,8 @@
 // File: Mint.g4
-// Author: Kiran Venkatachalam , Monisha Krishnamurthy
+// Author: Kiran Venkatachalam, Monisha Krishnamurthy, Rahul Ravindra Reddy
 // Purpose: Grammar definition for Mint language parser using ANTLR4 (Milestone 2)
 // Version: 1.0
+// Date: April 14, 2025
 
 grammar Mint;
 
@@ -78,6 +79,9 @@ statement
     | ifStatement
     | whileLoop
     | forLoop
+    | breakStatement
+    | continueStatement
+    | expressionStatement
     ;
 
 declaration
@@ -107,7 +111,17 @@ forLoop
     : MINT_FOR LPAREN assignment expression SEMI assignment RPAREN block
     ;
 
-//expression TBD
+breakStatement
+    : MINT_BREAK SEMI
+    ;
+
+continueStatement
+    : MINT_CONTINUE SEMI
+    ;
+
+expressionStatement
+    : expression SEMI
+    ;
 
 block
     : LBRACE statement* RBRACE
@@ -118,4 +132,49 @@ type
     | FLOAT_TYPE
     | STRING_TYPE
     | BOOL_TYPE
+    ;
+
+// =====================
+// Expression Parsing by Precedence
+// =====================
+
+expression
+    : ternaryExpression
+    ;
+
+ternaryExpression
+    : logicalExpression (T_IF expression T_ELSE expression)?
+    ;
+
+logicalExpression
+    : logicalExpression AND equalityExpression
+    | logicalExpression OR equalityExpression
+    | NOT logicalExpression
+    | equalityExpression
+    ;
+
+equalityExpression
+    : comparisonExpression ((EQ | NEQ) comparisonExpression)*
+    ;
+
+comparisonExpression
+    : additiveExpression ((LT | LTE | GT | GTE) additiveExpression)*
+    ;
+
+additiveExpression
+    : additiveExpression (ADD | SUB) multiplicativeExpression
+    | multiplicativeExpression
+    ;
+
+multiplicativeExpression
+    : multiplicativeExpression (MUL | DIV | MOD) primaryExpression
+    | primaryExpression
+    ;
+
+primaryExpression
+    : LPAREN expression RPAREN
+    | IDENTIFIER
+    | NUMBER
+    | STRING
+    | BOOL
     ;
