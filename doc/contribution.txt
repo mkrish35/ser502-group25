@@ -1,0 +1,42 @@
+SER 502 - Group 25  
+Language Name: Mint  
+=====================
+
+Individual Contribution  
+------------------------
+
+Kiran Venkatachalam  
+- Assisted in testing the lexer rules using regular expressions.
+- Prepared the README.md and initial documentation.
+- Contributed in writing one sample program to verify tokenization and parse tree generation.
+- Helped in the grammar design document in EBNF format.
+- Contributed to define ANTLR build process and verified grammar outputs through sample mint programs.
+
+Monisha Krishnamurthy  
+- Worked on defining token types and their corresponding lexer rules.
+- Contributed to cleaning up the grammar syntax and ensuring EBNF consistency.
+- Helped set up the ANTLR build process and assisted in testing grammar outputs.
+- Verified grammar correctness using sample `.mint` programs.
+- Reviewed and edited documentation content.
+
+Rahul Ravindra Reddy  
+- Participated in grammar design discussions and token definition refinement.
+- Assisted in debugging ANTLR generation and grammar testing issues.
+- Helped validate the lexer/parser integration with ANTLR TestRig.
+- Collaborated on drafting the language design PDF and verified formatting.
+- Provided sample test case scenarios for grammar validation.
+
+Vishnu Kumar Adhilakshmi Kalidas  
+- Contributed to defining control flow structures (`if`, `for`, `while`) in grammar and in designing Lexer rules using regex.
+- Helped create and refine example programs demonstrating language features.
+- Participated in reviewing the EBNF grammar rules and refining parser rules.
+- Contributed to structure and content of documentation for milestone submission.
+- Helped maintain consistency across grammar file, samples, and documentation.
+
+Collaborative Efforts  
+---------------------
+- The team jointly designed the overall structure and theme of the Mint language.
+- Grammar rules and tokens were discussed and finalized collaboratively.
+- All team members participated in peer review, testing, and debugging.
+- Sample programs were tested and iterated together.
+- Final documents including README, grammar PDF, and contribution.txt were reviewed as a group.
