@@ -20,7 +20,7 @@ In this milestone, we’ve set up the project, defined our team structure, and s
 - Created private GitHub repo for the group  
 - Finalized the language name (`Mint`)  
 - Added `Mint.g4` grammar file with initial Lexer Rules.
-- Added a sample `.mint` program  
+- Added few sample `.mint` programs.  
 - Set up project structure  
 - Successfully generated lexer and viewed the parse tree using ANTLR’s TestRig GUI
 
@@ -47,12 +47,58 @@ Since the language runs on Java and ANTLR, it should be platform-independent.
 ---
 
 ## Project Structure (Milestone 1)
-ser502-group25/ 
-├── antlr-4.13.2-complete.jar # ANTLR jar 
-├── Mint.g4 # Grammar file (lexer rules only for now) 
-├── src/ 
-│ └── runtime/ 
-│ └── MintMain.java # Runtime entry point (basic) 
-├── data/ 
-│ └── sample1.mint # Sample test program 
-├── README.md # 
+.
+├── Mint.g4
+├── README.md
+├── antlr-4.13.2-complete.jar
+├── build
+│   ├── gen
+│   │   ├── MintBaseListener.class
+│   │   ├── MintBaseVisitor.class
+│   │   ├── .....
+│   └── runtime
+│       └── MintMain.class
+├── data
+│   ├── sample1.mint
+│   ├── sample2.mint
+│   ├── sample3.mint
+│   └── sample4.mint
+├── doc
+│   ├── Milestone-2.pdf
+│   └── contribution.txt
+└── src
+    ├── gen
+    │   ├── Mint.interp
+    │   ├── Mint.tokens
+    │   ├── MintBaseListener.java
+    │   ├── MintBaseVisitor.java
+    │   ├── MintLexer.interp
+    │   ├── MintLexer.java
+    │   ├── MintLexer.tokens
+    │   ├── MintListener.java
+    │   ├── MintParser.java
+    │   └── MintVisitor.java
+    └── runtime
+        └── MintMain.java
+
+## Instructions to build, compile and execute Mint.
+
+# Navigate to your project folder
+cd /path/to/ser502-group25/
+
+# Generate lexer and parser files
+antlr4 -Dlanguage=Java -visitor -o src/gen Mint.g4
+
+# Compile everything (clears build folder too)
+rm -rf build
+mkdir build
+javac -cp "antlr-4.13.2-complete.jar" -d build src/gen/*.java src/runtime/*.java
+
+1. View Tokens
+java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint program -tokens data/sample1.mint
+
+2. View Output (Parse Tree as Text)
+java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint program -tree data/sample1.mint
+
+3. View Visual Parse Tree (GUI)
+java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint program -gui data/sample1.mint
