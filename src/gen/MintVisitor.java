@@ -55,6 +55,12 @@ public interface MintVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileLoop(MintParser.WhileLoopContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MintParser#simpleAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimpleAssignment(MintParser.SimpleAssignmentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MintParser#forLoop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result

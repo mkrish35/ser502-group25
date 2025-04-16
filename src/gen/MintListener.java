@@ -80,6 +80,16 @@ public interface MintListener extends ParseTreeListener {
 	 */
 	void exitWhileLoop(MintParser.WhileLoopContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link MintParser#simpleAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterSimpleAssignment(MintParser.SimpleAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link MintParser#simpleAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitSimpleAssignment(MintParser.SimpleAssignmentContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link MintParser#forLoop}.
 	 * @param ctx the parse tree
 	 */

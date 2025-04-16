@@ -103,6 +103,18 @@ public class MintBaseListener implements MintListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSimpleAssignment(MintParser.SimpleAssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSimpleAssignment(MintParser.SimpleAssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterForLoop(MintParser.ForLoopContext ctx) { }
 	/**
 	 * {@inheritDoc}

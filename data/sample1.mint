@@ -9,7 +9,8 @@ mint_if (x > y) {
     sayln("Y is greater or equal");
 }
 
-mint_for (mint_int i = 0; i < 3; i = i + 1) {
+mint_int i = 0;
+mint_for (i = 0; i < 3; i = i + 1) {
     say("loop: ");
     sayln(i);
 }
