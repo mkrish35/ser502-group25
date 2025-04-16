@@ -86,3 +86,101 @@ IDENTIFIER    : [a-zA-Z_][a-zA-Z_0-9]*;
 
 WS            : [ \t\r\n]+ -> skip;
 LINE_COMMENT  : '//' ~[\r\n]* -> skip;
+
+4. Grammar Rules (EBNF) 
+// ===================== 
+// Parser Rules 
+// ===================== 
+program 
+: statement* EOF 
+; 
+statement 
+: declaration 
+| assignment 
+| printStatement 
+| ifStatement 
+| whileLoop 
+| forLoop 
+| breakStatement 
+| continueStatement 
+| expressionStatement 
+; 
+declaration 
+: type IDENTIFIER (ASSIGN expression)? SEMI 
+; 
+assignment 
+: IDENTIFIER ASSIGN expression SEMI 
+; 
+printStatement 
+: SAY LPAREN expression RPAREN SEMI 
+| SAYLN LPAREN expression RPAREN SEMI 
+; 
+ifStatement 
+: MINT_IF LPAREN expression RPAREN block 
+(MINT_ELSEIF LPAREN expression RPAREN block)* 
+(MINT_ELSE block)? 
+; 
+whileLoop 
+: MINT_WHILE LPAREN expression RPAREN block 
+; 
+simpleAssignment 
+: IDENTIFIER ASSIGN expression 
+; 
+forLoop 
+: MINT_FOR LPAREN simpleAssignment SEMI expression SEMI 
+simpleAssignment RPAREN block 
+; 
+breakStatement 
+: MINT_BREAK SEMI 
+; 
+continueStatement 
+: MINT_CONTINUE SEMI 
+; 
+expressionStatement 
+: expression SEMI 
+; 
+block 
+: LBRACE statement* RBRACE 
+; 
+type 
+: INT_TYPE 
+| FLOAT_TYPE 
+| STRING_TYPE 
+| BOOL_TYPE 
+; 
+// ===================== 
+// Expression Parsing by Precedence 
+// ===================== 
+expression 
+: ternaryExpression 
+; 
+ternaryExpression 
+: logicalExpression (T_IF expression T_ELSE expression)? 
+; 
+logicalExpression 
+: logicalExpression AND equalityExpression 
+| logicalExpression OR equalityExpression 
+| NOT logicalExpression 
+| equalityExpression 
+; 
+equalityExpression 
+: comparisonExpression ((EQ | NEQ) comparisonExpression)* 
+; 
+comparisonExpression 
+: additiveExpression ((LT | LTE | GT | GTE) additiveExpression)* 
+; 
+additiveExpression 
+: additiveExpression (ADD | SUB) multiplicativeExpression 
+| multiplicativeExpression 
+; 
+multiplicativeExpression 
+: multiplicativeExpression (MUL | DIV | MOD) primaryExpression 
+| primaryExpression 
+; 
+primaryExpression 
+: LPAREN expression RPAREN 
+| IDENTIFIER 
+| NUMBER 
+| STRING 
+| BOOL 
+;
