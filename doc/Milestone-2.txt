@@ -1,0 +1,31 @@
+Mint Programming Language — Grammar Design | MILESTONE - 2
+
+Team Name: SER502-Group25
+Language Name: Mint
+Milestone: 2 — Grammar Design and Tokenization
+Course: SER 502 — Language and Programming Paradigms
+Semester: Spring 2025
+
+1. Introduction
+Mint is a beginner-friendly imperative programming language developed as part of our SER 502 course project. The language takes inspiration from modern C-style languages and is designed to be simple, readable, and cross-platform.
+In this milestone, our focus was to define the grammar of the language and ensure it can be tokenized and parsed successfully using ANTLR4. This document includes the language’s lexical structure and parser grammar written in EBNF.
+
+2. Language Features Covered
+•	Variable declarations with types:
+    o	mint_int, mint_float, mint_string, mint_bool
+•	Arithmetic expressions:
+    o	+, -, *, /, %
+•	Logical operators:
+    o	and, or, not
+•	Relational comparisons:
+    o	==, !=, <, <=, >, >=
+•	Conditional control flow:
+    o	mint_if, mint_else, mint_elseif
+•	Iteration constructs:
+    o	mint_while, mint_for
+•	Output commands:
+    o	say(), sayln()
+•	Ternary operator:
+    o	? :
+•	Flow control:
+    o	mint_break, mint_continue

@@ -1,8 +1,7 @@
 // File: Mint.g4
-// Author: Kiran Venkatachalam, Monisha Krishnamurthy, Rahul Ravindra Reddy
-// Purpose: Grammar definition for Mint language parser using ANTLR4 (Milestone 2)
-// Version: 4.0
-// Date: April 14, 2025
+// Author: Kiran Venkatachalam, Monisha Krishnamurthy, Rahul Ravindra Reddy, Vishnu Kumar Adhilakshmi Kalidas
+// Purpose: Grammar definition for Mint language parser using ANTLR4
+// Version: 5.0
 
 grammar Mint;
 
@@ -107,10 +106,14 @@ whileLoop
     : MINT_WHILE LPAREN expression RPAREN block
     ;
 
-forLoop
-    : MINT_FOR LPAREN assignment expression SEMI assignment RPAREN block
+simpleAssignment
+    : IDENTIFIER ASSIGN expression
     ;
 
+forLoop
+    : MINT_FOR LPAREN simpleAssignment SEMI expression SEMI simpleAssignment RPAREN block
+    ;
+    
 breakStatement
     : MINT_BREAK SEMI
     ;
