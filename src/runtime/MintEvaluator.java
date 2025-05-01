@@ -175,3 +175,87 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
     }
     
 }
+
+    @Override
+    public Object visitSimpleAssignment(MintParser.SimpleAssignmentContext ctx) {
+        String name = ctx.IDENTIFIER().getText();
+        Object value = visit(ctx.expression());
+
+        if (!types.containsKey(name)) {
+            throw new RuntimeException("Variable not declared: " + name);
+        }
+
+        String declaredType = types.get(name);
+
+        switch (declaredType) {
+            case "mint_int":
+                if (!(value instanceof Integer)) {
+                    throw new RuntimeException("Type mismatch: Expected int for " + name);
+                }
+                break;
+            case "mint_float":
+                if (!(value instanceof Double)) {
+                    throw new RuntimeException("Type mismatch: Expected float for " + name);
+                }
+                break;
+            case "mint_bool":
+                if (!(value instanceof Boolean)) {
+                    throw new RuntimeException("Type mismatch: Expected bool for " + name);
+                }
+                break;
+            case "mint_string":
+                if (!(value instanceof String)) {
+                    throw new RuntimeException("Type mismatch: Expected string for " + name);
+                }
+                break;
+            default:
+                throw new RuntimeException("Unknown type for variable: " + name);
+        }
+
+        variables.put(name, value);
+        return value;
+    }
+
+    @Override
+    public Object visitForLoop(MintParser.ForLoopContext ctx) {
+        visit(ctx.simpleAssignment(0));
+        
+        while (true) {
+            Object conditionResult = visit(ctx.expression());
+            if (!(conditionResult instanceof Boolean)) {
+                throw new RuntimeException("For loop condition must evaluate to a boolean");
+            }
+            
+            if (!(Boolean) conditionResult) break;
+            if (breakFlag) {
+                breakFlag = false;
+                break;
+            }
+            
+            visit(ctx.block());
+            
+            if (continueFlag) {
+                continueFlag = false;
+            }
+            
+            visit(ctx.simpleAssignment(1));
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitBreakStatement(MintParser.BreakStatementContext ctx) {
+        breakFlag = true;
+        return null;
+    }
+
+    @Override
+    public Object visitContinueStatement(MintParser.ContinueStatementContext ctx) {
+        continueFlag = true;
+        return null;
+    }
+
+    @Override
+    public Object visitExpression(MintParser.ExpressionContext ctx) {
+        return visit(ctx.ternaryExpression());
+    }
