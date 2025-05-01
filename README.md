@@ -80,6 +80,7 @@ Since the language runs on Java and ANTLR, it should be platform-independent.
     │   └── MintVisitor.java
     └── runtime
         └── MintMain.java
+        └── MintEvaluator.java
 
 ## Instructions to build, compile and execute Mint.
 

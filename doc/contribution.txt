@@ -11,6 +11,7 @@ Kiran Venkatachalam
 - Contributed in writing one sample program to verify tokenization and parse tree generation.
 - Helped in the grammar design document in EBNF format.
 - Contributed to define ANTLR build process and verified grammar outputs through sample mint programs.
+- Assisted in developing the evaluator file and modifying exisiting sample testcase to execute properly.
 
 Monisha Krishnamurthy  
 - Worked on defining token types and their corresponding lexer rules.

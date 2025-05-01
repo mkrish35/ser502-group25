@@ -55,8 +55,8 @@ FLOAT_TYPE    : 'mint_float';
 STRING_TYPE   : 'mint_string';
 BOOL_TYPE     : 'mint_bool';
 
-BOOL          : 'true' | 'false';
 NUMBER        : [0-9]+('.'[0-9]+)?;
+BOOL          : 'true' | 'false';
 STRING        : '"' .*? '"';
 IDENTIFIER    : [a-zA-Z_][a-zA-Z_0-9]*;
 

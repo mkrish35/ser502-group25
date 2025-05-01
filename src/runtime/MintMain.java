@@ -22,9 +22,15 @@ public class MintMain {
 
             // Parse
             MintParser parser = new MintParser(tokens);
-            ParseTree tree = parser.program(); // Entry rule
+            ParseTree tree = parser.program();
 
-            // Print parse tree
+            // Print tokens AFTER parser starts parsing
+            tokens.fill();
+
+            // Visit
+            MintEvaluator evaluator = new MintEvaluator();
+            evaluator.visit(tree);
+
             System.out.println(tree.toStringTree(parser));
         } catch (Exception e) {
             System.err.println("Error: " + e.getMessage());

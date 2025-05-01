@@ -23,8 +23,8 @@ public class MintParser extends Parser {
 		MINT_CONTINUE=7, SAY=8, SAYLN=9, T_IF=10, T_ELSE=11, AND=12, OR=13, NOT=14, 
 		ADD=15, SUB=16, MUL=17, DIV=18, MOD=19, EQ=20, NEQ=21, LT=22, LTE=23, 
 		GT=24, GTE=25, ASSIGN=26, SEMI=27, COMMA=28, LPAREN=29, RPAREN=30, LBRACE=31, 
-		RBRACE=32, INT_TYPE=33, FLOAT_TYPE=34, STRING_TYPE=35, BOOL_TYPE=36, BOOL=37, 
-		NUMBER=38, STRING=39, IDENTIFIER=40, WS=41, LINE_COMMENT=42;
+		RBRACE=32, INT_TYPE=33, FLOAT_TYPE=34, STRING_TYPE=35, BOOL_TYPE=36, NUMBER=37, 
+		BOOL=38, STRING=39, IDENTIFIER=40, WS=41, LINE_COMMENT=42;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_declaration = 2, RULE_assignment = 3, 
 		RULE_printStatement = 4, RULE_ifStatement = 5, RULE_whileLoop = 6, RULE_simpleAssignment = 7, 
@@ -60,8 +60,8 @@ public class MintParser extends Parser {
 			"MINT_BREAK", "MINT_CONTINUE", "SAY", "SAYLN", "T_IF", "T_ELSE", "AND", 
 			"OR", "NOT", "ADD", "SUB", "MUL", "DIV", "MOD", "EQ", "NEQ", "LT", "LTE", 
 			"GT", "GTE", "ASSIGN", "SEMI", "COMMA", "LPAREN", "RPAREN", "LBRACE", 
-			"RBRACE", "INT_TYPE", "FLOAT_TYPE", "STRING_TYPE", "BOOL_TYPE", "BOOL", 
-			"NUMBER", "STRING", "IDENTIFIER", "WS", "LINE_COMMENT"
+			"RBRACE", "INT_TYPE", "FLOAT_TYPE", "STRING_TYPE", "BOOL_TYPE", "NUMBER", 
+			"BOOL", "STRING", "IDENTIFIER", "WS", "LINE_COMMENT"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -1245,8 +1245,8 @@ public class MintParser extends Parser {
 				}
 				break;
 			case LPAREN:
-			case BOOL:
 			case NUMBER:
+			case BOOL:
 			case STRING:
 			case IDENTIFIER:
 				{
@@ -1939,8 +1939,8 @@ public class MintParser extends Parser {
 		")\u0001\u0000\u0000\u0000\u00d6\u00d4\u0001\u0000\u0000\u0000\u00d7\u00d8"+
 		"\u0005\u001d\u0000\u0000\u00d8\u00d9\u0003\u001c\u000e\u0000\u00d9\u00da"+
 		"\u0005\u001e\u0000\u0000\u00da\u00e0\u0001\u0000\u0000\u0000\u00db\u00e0"+
-		"\u0005(\u0000\u0000\u00dc\u00e0\u0005&\u0000\u0000\u00dd\u00e0\u0005\'"+
-		"\u0000\u0000\u00de\u00e0\u0005%\u0000\u0000\u00df\u00d7\u0001\u0000\u0000"+
+		"\u0005(\u0000\u0000\u00dc\u00e0\u0005%\u0000\u0000\u00dd\u00e0\u0005\'"+
+		"\u0000\u0000\u00de\u00e0\u0005&\u0000\u0000\u00df\u00d7\u0001\u0000\u0000"+
 		"\u0000\u00df\u00db\u0001\u0000\u0000\u0000\u00df\u00dc\u0001\u0000\u0000"+
 		"\u0000\u00df\u00dd\u0001\u0000\u0000\u0000\u00df\u00de\u0001\u0000\u0000"+
 		"\u0000\u00e0+\u0001\u0000\u0000\u0000\u0010/=CXgl\u008f\u009e\u00a4\u00ac"+
