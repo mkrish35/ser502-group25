@@ -12,7 +12,8 @@
 Mint is a simple, beginner-friendly programming language being developed as part of our course project. It uses more readable and modern keywords.
 
 In this milestone, we’ve set up the project, defined our team structure, and started writing the grammar using ANTLR.
-
+Updated:
+We have finished writing the Evaluator for Mint. Our interpreter parses and executes .mint programs using ANTLR and a custom-built MintEvaluator that handles type checking, loops, conditionals, and arithmetic operations. The language is designed to be readable, minimal, and extensible.
 ---
 
 ## Checkpoint 1:
@@ -103,3 +104,12 @@ java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint pro
 
 3. View Visual Parse Tree (GUI)
 java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint program -gui data/sample1.mint
+
+4. How to execute the sample programs?
+    javac -cp "antlr-4.13.2-complete.jar" -d build src/gen/*.java src/runtime/*.java (to build class files - already existing)
+    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample3.mint (to execute the program and get output)
+    Example:
+    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample1.mint
+    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample2.mint
+    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample3.mint
+    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample4.mint
