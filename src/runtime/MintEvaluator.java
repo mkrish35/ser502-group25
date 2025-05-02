@@ -259,3 +259,137 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
     public Object visitExpression(MintParser.ExpressionContext ctx) {
         return visit(ctx.ternaryExpression());
     }
+
+    @Override
+    public Object visitExpressionStatement(MintParser.ExpressionStatementContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
+    public Object visitTernaryExpression(MintParser.TernaryExpressionContext ctx) {
+        if (ctx.T_IF() != null) {
+            Object conditionResult = visit(ctx.logicalExpression());
+            if (!(conditionResult instanceof Boolean)) {
+                throw new RuntimeException("Ternary condition must evaluate to a boolean");
+            }
+            
+            boolean condition = (Boolean) conditionResult;
+            return condition ? visit(ctx.expression(0)) : visit(ctx.expression(1));
+        }
+        return visit(ctx.logicalExpression());
+    }
+
+    @Override
+    public Object visitLogicalExpression(MintParser.LogicalExpressionContext ctx) {
+        // Rule: logicalExpression AND equalityExpression
+        if (ctx.AND() != null) {
+            Object left = visit(ctx.logicalExpression());
+            
+            // Type check for left operand
+            if (!(left instanceof Boolean)) {
+                throw new RuntimeException("AND operation requires boolean operands. Left operand is " + 
+                                         (left != null ? left.getClass().getSimpleName() : "null"));
+            }
+            
+            // Short-circuit evaluation for AND
+            if (!(Boolean)left) {
+                return false;
+            }
+            
+            Object right = visit(ctx.equalityExpression());
+            
+            // Type check for right operand
+            if (!(right instanceof Boolean)) {
+                throw new RuntimeException("AND operation requires boolean operands. Right operand is " + 
+                                         (right != null ? right.getClass().getSimpleName() : "null"));
+            }
+            
+            return (Boolean) left && (Boolean) right;
+        } 
+        // Rule: logicalExpression OR equalityExpression
+        else if (ctx.OR() != null) {
+            Object left = visit(ctx.logicalExpression());
+            
+            // Type check for left operand
+            if (!(left instanceof Boolean)) {
+                throw new RuntimeException("OR operation requires boolean operands. Left operand is " + 
+                                         (left != null ? left.getClass().getSimpleName() : "null"));
+            }
+            
+            // Short-circuit evaluation for OR
+            if ((Boolean)left) {
+                return true;
+            }
+            
+            Object right = visit(ctx.equalityExpression());
+            
+            // Type check for right operand
+            if (!(right instanceof Boolean)) {
+                throw new RuntimeException("OR operation requires boolean operands. Right operand is " + 
+                                         (right != null ? right.getClass().getSimpleName() : "null"));
+            }
+            
+            return (Boolean) left || (Boolean) right;
+        } 
+        // Rule: NOT logicalExpression
+        else if (ctx.NOT() != null) {
+            Object value = visit(ctx.logicalExpression());
+            
+            // Type check
+            if (!(value instanceof Boolean)) {
+                throw new RuntimeException("NOT operation requires boolean operand. Got " + 
+                                         (value != null ? value.getClass().getSimpleName() : "null"));
+            }
+            
+            return !(Boolean) value;
+        } 
+        // Rule: equalityExpression
+        else {
+            return visit(ctx.equalityExpression());
+        }
+    }
+
+    @Override
+    public Object visitEqualityExpression(MintParser.EqualityExpressionContext ctx) {
+        // If there are no equality operators, just return the comparison expression
+        if (ctx.EQ().isEmpty() && ctx.NEQ().isEmpty()) {
+            return visit(ctx.comparisonExpression(0));
+        }
+    
+        Object left = visit(ctx.comparisonExpression(0));
+        for (int i = 1; i < ctx.comparisonExpression().size(); i++) {
+            Object right = visit(ctx.comparisonExpression(i));
+            
+            // Check if we have an equality operator
+            if (ctx.EQ(i - 1) != null) {
+                if (!equalsWithTypeCheck(left, right)) {
+                    return false;
+                }
+            }
+            // Check if we have an inequality operator
+            else if (ctx.NEQ(i - 1) != null) {
+                if (equalsWithTypeCheck(left, right)) {
+                    return false;
+                }
+            }
+            
+            left = right; // For chained equality checks
+        }
+        
+        return true;
+    }
+    
+    // Helper method for proper equality checking with type considerations
+    private boolean equalsWithTypeCheck(Object a, Object b) {
+        if (a == null || b == null) {
+            return a == b;
+        }
+        
+        // If both are numbers, compare their numeric values
+        if (a instanceof Number && b instanceof Number) {
+            return Double.compare(((Number)a).doubleValue(), ((Number)b).doubleValue()) == 0;
+        }
+        
+        // For all other types, use standard equals
+        return a.equals(b);
+    }
