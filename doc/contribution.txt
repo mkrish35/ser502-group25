@@ -27,6 +27,10 @@ Rahul Ravindra Reddy
 - Helped validate the lexer/parser integration with ANTLR TestRig.
 - Collaborated on drafting the language design PDF and verified formatting.
 - Provided sample test case scenarios for grammar validation.
+- Implemented evaluation logic for chained comparison expressions (e.g., <, <=, >, >=).
+- Added support for string concatenation in additive expressions using the + operator.
+- Developed logic for multiplicative operations (*, /, %) with type safety and zero-division checks.
+- Handled primary expression evaluation including literals (int, float, bool, string), variables, and nested expressions.
 
 Vishnu Kumar Adhilakshmi Kalidas  
 - Contributed to defining control flow structures (`if`, `for`, `while`) in grammar and in designing Lexer rules using regex.
