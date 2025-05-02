@@ -27,6 +27,16 @@ We have finished writing the Evaluator for Mint. Our interpreter parses and exec
 
 ---
 
+## Checkpoint 2:
+
+- Implemented the MintEvaluator class to traverse and evaluate the parse tree using the visitor pattern.
+- Handled expression evaluation for arithmetic, logical, comparison, equality, ternary, and primary expressions with strict type checking.
+- Added support for variable declarations, assignments, and type validation (mint_int, mint_float, mint_bool, mint_string).
+- Implemented control flow constructs: mint_if, mint_else, mint_while, and mint_for, including mint_break and mint_continue logic.
+- Built an end-to-end interpreter that executes .mint files and displays both console output and parse tree successfully.
+
+---
+
 ## Tools We’re Using
 
 - **ANTLR 4.13.2** — for lexer and parser generation  
