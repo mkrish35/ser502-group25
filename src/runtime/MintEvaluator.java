@@ -474,3 +474,55 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
             }
         }
     }
+
+    @Override
+    public Object visitMultiplicativeExpression(MintParser.MultiplicativeExpressionContext ctx) {
+        // Process the grammar structure correctly by checking rule alternatives
+        if (ctx.getChildCount() == 1) {
+            // Base case: just a primaryExpression
+            return visit(ctx.primaryExpression());
+        } else {
+            // Binary operation case: multiplicativeExpression operator primaryExpression
+            Object left = visit(ctx.multiplicativeExpression());
+            Object right = visit(ctx.primaryExpression());
+            
+            if (!(left instanceof Number) || !(right instanceof Number)) {
+                throw new RuntimeException("Multiplicative operations require numeric operands");
+            }
+            
+            // Determine if we should return Integer or Double
+            boolean isInteger = left instanceof Integer && right instanceof Integer;
+            
+            if (ctx.MUL() != null) {
+                if (isInteger) {
+                    return ((Number)left).intValue() * ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() * ((Number)right).doubleValue();
+                }
+            } 
+            else if (ctx.DIV() != null) {
+                // Division by zero check
+                if (((Number)right).doubleValue() == 0) {
+                    throw new RuntimeException("Division by zero");
+                }
+                
+                if (isInteger) {
+                    return ((Number)left).intValue() / ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() / ((Number)right).doubleValue();
+                }
+            } 
+            else { // MOD
+                // Modulo by zero check
+                if (((Number)right).doubleValue() == 0) {
+                    throw new RuntimeException("Modulo by zero");
+                }
+                
+                if (isInteger) {
+                    return ((Number)left).intValue() % ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() % ((Number)right).doubleValue();
+                }
+            }
+        }
+    }
