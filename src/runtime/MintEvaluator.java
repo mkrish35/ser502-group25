@@ -393,3 +393,84 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
         // For all other types, use standard equals
         return a.equals(b);
     }
+
+    @Override
+    public Object visitComparisonExpression(MintParser.ComparisonExpressionContext ctx) {
+        // If there are no comparison operators, just return the additive expression
+        if (ctx.LT().isEmpty() && ctx.LTE().isEmpty() && ctx.GT().isEmpty() && ctx.GTE().isEmpty()) {
+            return visit(ctx.additiveExpression(0));
+        }
+        
+        Object left = visit(ctx.additiveExpression(0));
+        for (int i = 1; i < ctx.additiveExpression().size(); i++) {
+            Object right = visit(ctx.additiveExpression(i));
+            
+            // Ensure both operands are numbers for comparison
+            if (!(left instanceof Number) || !(right instanceof Number)) {
+                throw new RuntimeException("Comparison operations require numeric operands. Got " + 
+                                         left.getClass().getSimpleName() + " and " + 
+                                         right.getClass().getSimpleName());
+            }
+            
+            double l = ((Number) left).doubleValue();
+            double r = ((Number) right).doubleValue();
+            
+            if (ctx.LT(i - 1) != null) {
+                if (!(l < r)) return false;
+            }
+            else if (ctx.LTE(i - 1) != null) {
+                if (!(l <= r)) return false;
+            }
+            else if (ctx.GT(i - 1) != null) {
+                if (!(l > r)) return false;
+            }
+            else if (ctx.GTE(i - 1) != null) {
+                if (!(l >= r)) return false;
+            }
+            
+            left = right; // For chained comparisons
+        }
+        
+        return true; // All comparisons passed
+    }
+
+    @Override
+    public Object visitAdditiveExpression(MintParser.AdditiveExpressionContext ctx) {
+        // Process the grammar structure correctly by checking rule alternatives
+        if (ctx.getChildCount() == 1) {
+            // Base case: just a multiplicativeExpression
+            return visit(ctx.multiplicativeExpression());
+        } else {
+            // Binary operation case: additiveExpression operator multiplicativeExpression
+            Object left = visit(ctx.additiveExpression());
+            Object right = visit(ctx.multiplicativeExpression());
+            
+            // Special case for string concatenation with +
+            if (ctx.ADD() != null && (left instanceof String || right instanceof String)) {
+                return String.valueOf(left) + String.valueOf(right);
+            }
+            
+            if (!(left instanceof Number) || !(right instanceof Number)) {
+                throw new RuntimeException("Add/Sub operations require numeric operands. Got " + 
+                                         left.getClass().getSimpleName() + " and " + 
+                                         right.getClass().getSimpleName());
+            }
+            
+            // Determine if we should return Integer or Double
+            boolean isInteger = left instanceof Integer && right instanceof Integer;
+            
+            if (ctx.ADD() != null) {
+                if (isInteger) {
+                    return ((Number)left).intValue() + ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() + ((Number)right).doubleValue();
+                }
+            } else { // SUB
+                if (isInteger) {
+                    return ((Number)left).intValue() - ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() - ((Number)right).doubleValue();
+                }
+            }
+        }
+    }
