@@ -173,8 +173,6 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
         }
         return null;
     }
-    
-}
 
     @Override
     public Object visitSimpleAssignment(MintParser.SimpleAssignmentContext ctx) {
@@ -526,3 +524,54 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
             }
         }
     }
+
+    @Override
+    public Object visitPrimaryExpression(MintParser.PrimaryExpressionContext ctx) {
+        if (ctx.NUMBER() != null) {
+            String numText = ctx.NUMBER().getText();
+            
+            // Check for parsing errors - should not happen with correct lexer
+            if (numText.equals("true") || numText.equals("false")) {
+                return Boolean.parseBoolean(numText);
+            }
+            
+            if (numText.contains(".")) {
+                return Double.parseDouble(numText);
+            } else {
+                return Integer.parseInt(numText);
+            }
+        }
+    
+        if (ctx.BOOL() != null) {
+            String boolText = ctx.BOOL().getText();
+            return Boolean.parseBoolean(boolText);
+        }
+
+        if (ctx.STRING() != null) {
+            // Remove the surrounding quotes from the string literal
+            String value = ctx.STRING().getText();
+            value = value.substring(1, value.length() - 1); // Remove first and last quote
+            return value;
+        }
+
+        if (ctx.IDENTIFIER() != null) {
+            String varName = ctx.IDENTIFIER().getText();
+            if (!variables.containsKey(varName)) {
+                throw new RuntimeException("Variable not declared: " + varName);
+            }
+            Object value = variables.get(varName);
+            return value;
+        }
+
+        if (ctx.expression() != null) {
+            return visit(ctx.expression());
+        }
+
+        throw new RuntimeException("Unknown primary expression");
+    }
+
+    @Override
+    public Object visitStatement(MintParser.StatementContext ctx) {
+        return super.visitStatement(ctx);
+    }
+}
