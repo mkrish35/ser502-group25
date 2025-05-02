@@ -19,6 +19,7 @@ Monisha Krishnamurthy
 - Helped set up the ANTLR build process and assisted in testing grammar outputs.
 - Verified grammar correctness using sample `.mint` programs.
 - Reviewed and edited documentation content.
+- Contributed to developing the evaluator by implementing logic to process and evaluate logical, equality, and ternary expressions with proper type checking.
 
 Rahul Ravindra Reddy  
 - Participated in grammar design discussions and token definition refinement.
