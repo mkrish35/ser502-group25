@@ -173,8 +173,6 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
         }
         return null;
     }
-    
-}
 
     @Override
     public Object visitSimpleAssignment(MintParser.SimpleAssignmentContext ctx) {
@@ -393,3 +391,187 @@ public class MintEvaluator extends MintBaseVisitor<Object> {
         // For all other types, use standard equals
         return a.equals(b);
     }
+
+    @Override
+    public Object visitComparisonExpression(MintParser.ComparisonExpressionContext ctx) {
+        // If there are no comparison operators, just return the additive expression
+        if (ctx.LT().isEmpty() && ctx.LTE().isEmpty() && ctx.GT().isEmpty() && ctx.GTE().isEmpty()) {
+            return visit(ctx.additiveExpression(0));
+        }
+        
+        Object left = visit(ctx.additiveExpression(0));
+        for (int i = 1; i < ctx.additiveExpression().size(); i++) {
+            Object right = visit(ctx.additiveExpression(i));
+            
+            // Ensure both operands are numbers for comparison
+            if (!(left instanceof Number) || !(right instanceof Number)) {
+                throw new RuntimeException("Comparison operations require numeric operands. Got " + 
+                                         left.getClass().getSimpleName() + " and " + 
+                                         right.getClass().getSimpleName());
+            }
+            
+            double l = ((Number) left).doubleValue();
+            double r = ((Number) right).doubleValue();
+            
+            if (ctx.LT(i - 1) != null) {
+                if (!(l < r)) return false;
+            }
+            else if (ctx.LTE(i - 1) != null) {
+                if (!(l <= r)) return false;
+            }
+            else if (ctx.GT(i - 1) != null) {
+                if (!(l > r)) return false;
+            }
+            else if (ctx.GTE(i - 1) != null) {
+                if (!(l >= r)) return false;
+            }
+            
+            left = right; // For chained comparisons
+        }
+        
+        return true; // All comparisons passed
+    }
+
+    @Override
+    public Object visitAdditiveExpression(MintParser.AdditiveExpressionContext ctx) {
+        // Process the grammar structure correctly by checking rule alternatives
+        if (ctx.getChildCount() == 1) {
+            // Base case: just a multiplicativeExpression
+            return visit(ctx.multiplicativeExpression());
+        } else {
+            // Binary operation case: additiveExpression operator multiplicativeExpression
+            Object left = visit(ctx.additiveExpression());
+            Object right = visit(ctx.multiplicativeExpression());
+            
+            // Special case for string concatenation with +
+            if (ctx.ADD() != null && (left instanceof String || right instanceof String)) {
+                return String.valueOf(left) + String.valueOf(right);
+            }
+            
+            if (!(left instanceof Number) || !(right instanceof Number)) {
+                throw new RuntimeException("Add/Sub operations require numeric operands. Got " + 
+                                         left.getClass().getSimpleName() + " and " + 
+                                         right.getClass().getSimpleName());
+            }
+            
+            // Determine if we should return Integer or Double
+            boolean isInteger = left instanceof Integer && right instanceof Integer;
+            
+            if (ctx.ADD() != null) {
+                if (isInteger) {
+                    return ((Number)left).intValue() + ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() + ((Number)right).doubleValue();
+                }
+            } else { // SUB
+                if (isInteger) {
+                    return ((Number)left).intValue() - ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() - ((Number)right).doubleValue();
+                }
+            }
+        }
+    }
+
+    @Override
+    public Object visitMultiplicativeExpression(MintParser.MultiplicativeExpressionContext ctx) {
+        // Process the grammar structure correctly by checking rule alternatives
+        if (ctx.getChildCount() == 1) {
+            // Base case: just a primaryExpression
+            return visit(ctx.primaryExpression());
+        } else {
+            // Binary operation case: multiplicativeExpression operator primaryExpression
+            Object left = visit(ctx.multiplicativeExpression());
+            Object right = visit(ctx.primaryExpression());
+            
+            if (!(left instanceof Number) || !(right instanceof Number)) {
+                throw new RuntimeException("Multiplicative operations require numeric operands");
+            }
+            
+            // Determine if we should return Integer or Double
+            boolean isInteger = left instanceof Integer && right instanceof Integer;
+            
+            if (ctx.MUL() != null) {
+                if (isInteger) {
+                    return ((Number)left).intValue() * ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() * ((Number)right).doubleValue();
+                }
+            } 
+            else if (ctx.DIV() != null) {
+                // Division by zero check
+                if (((Number)right).doubleValue() == 0) {
+                    throw new RuntimeException("Division by zero");
+                }
+                
+                if (isInteger) {
+                    return ((Number)left).intValue() / ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() / ((Number)right).doubleValue();
+                }
+            } 
+            else { // MOD
+                // Modulo by zero check
+                if (((Number)right).doubleValue() == 0) {
+                    throw new RuntimeException("Modulo by zero");
+                }
+                
+                if (isInteger) {
+                    return ((Number)left).intValue() % ((Number)right).intValue();
+                } else {
+                    return ((Number)left).doubleValue() % ((Number)right).doubleValue();
+                }
+            }
+        }
+    }
+
+    @Override
+    public Object visitPrimaryExpression(MintParser.PrimaryExpressionContext ctx) {
+        if (ctx.NUMBER() != null) {
+            String numText = ctx.NUMBER().getText();
+            
+            // Check for parsing errors - should not happen with correct lexer
+            if (numText.equals("true") || numText.equals("false")) {
+                return Boolean.parseBoolean(numText);
+            }
+            
+            if (numText.contains(".")) {
+                return Double.parseDouble(numText);
+            } else {
+                return Integer.parseInt(numText);
+            }
+        }
+    
+        if (ctx.BOOL() != null) {
+            String boolText = ctx.BOOL().getText();
+            return Boolean.parseBoolean(boolText);
+        }
+
+        if (ctx.STRING() != null) {
+            // Remove the surrounding quotes from the string literal
+            String value = ctx.STRING().getText();
+            value = value.substring(1, value.length() - 1); // Remove first and last quote
+            return value;
+        }
+
+        if (ctx.IDENTIFIER() != null) {
+            String varName = ctx.IDENTIFIER().getText();
+            if (!variables.containsKey(varName)) {
+                throw new RuntimeException("Variable not declared: " + varName);
+            }
+            Object value = variables.get(varName);
+            return value;
+        }
+
+        if (ctx.expression() != null) {
+            return visit(ctx.expression());
+        }
+
+        throw new RuntimeException("Unknown primary expression");
+    }
+
+    @Override
+    public Object visitStatement(MintParser.StatementContext ctx) {
+        return super.visitStatement(ctx);
+    }
+}
