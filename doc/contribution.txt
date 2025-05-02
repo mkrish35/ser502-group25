@@ -38,6 +38,7 @@ Vishnu Kumar Adhilakshmi Kalidas
 - Participated in reviewing the EBNF grammar rules and refining parser rules.
 - Contributed to structure and content of documentation for milestone submission.
 - Helped maintain consistency across grammar file, samples, and documentation.
+- Implemented evaluator logic for variable assignment with type checking, and extended support for for loops with break and continue control flow handling.
 
 Collaborative Efforts  
 ---------------------
