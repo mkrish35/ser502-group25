@@ -1,3 +1,4 @@
+// Demonstrates arithmetic, logical expressions, if-else, and for loop constructs
 mint_int x = 10;
 mint_int y = 5;
 

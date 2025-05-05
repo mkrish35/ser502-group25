@@ -12,6 +12,9 @@ Kiran Venkatachalam
 - Helped in the grammar design document in EBNF format.
 - Contributed to define ANTLR build process and verified grammar outputs through sample mint programs.
 - Assisted in developing the evaluator file and modifying exisiting sample testcase to execute properly.
+- Led the integration and refinement of new .mint sample programs, ensuring all grammar rules and constructs were covered.
+- Finalized the updated README.md structure and milestone documentation with detailed build/run instructions and program summaries.
+- Contributed content ideas and flow structure for the team’s final presentation PDF.
 
 Monisha Krishnamurthy  
 - Worked on defining token types and their corresponding lexer rules.
@@ -20,6 +23,9 @@ Monisha Krishnamurthy
 - Verified grammar correctness using sample `.mint` programs.
 - Reviewed and edited documentation content.
 - Contributed to developing the evaluator by implementing logic to process and evaluate logical, equality, and ternary expressions with proper type checking.
+- Validated evaluator logic for corner cases in ternary and logical expressions using test samples and ensured type safety throughout.
+- Contributed to the final grammar cleanup and verified grammar-evaluator alignment by cross-checking all sample program executions.
+- Participated in drafting diagrams and overview slides for the team’s final presentation PDF.
 
 Rahul Ravindra Reddy  
 - Participated in grammar design discussions and token definition refinement.
@@ -31,6 +37,9 @@ Rahul Ravindra Reddy
 - Added support for string concatenation in additive expressions using the + operator.
 - Developed logic for multiplicative operations (*, /, %) with type safety and zero-division checks.
 - Handled primary expression evaluation including literals (int, float, bool, string), variables, and nested expressions.
+- Ran comprehensive tests across all 10 .mint programs, refining evaluation logic where needed to handle edge cases smoothly.
+- Helped structure the final presentation content and coordinated grammar verification for the final milestone.
+- Reviewed and revised technical explanation slides for the final presentation PDF.
 
 Vishnu Kumar Adhilakshmi Kalidas  
 - Contributed to defining control flow structures (`if`, `for`, `while`) in grammar and in designing Lexer rules using regex.
@@ -39,6 +48,9 @@ Vishnu Kumar Adhilakshmi Kalidas
 - Contributed to structure and content of documentation for milestone submission.
 - Helped maintain consistency across grammar file, samples, and documentation.
 - Implemented evaluator logic for variable assignment with type checking, and extended support for for loops with break and continue control flow handling.
+- Refactored the evaluator’s loop handling to support correct break/continue behavior inside while and for blocks.
+- Assisted in debugging sample program logic for accurate output and correct parse tree generation.
+- Provided use case examples and program flow breakdowns for inclusion in the final presentation PDF.
 
 Collaborative Efforts  
 ---------------------
@@ -47,3 +59,5 @@ Collaborative Efforts
 - All team members participated in peer review, testing, and debugging.
 - Sample programs were tested and iterated together.
 - Final documents including README, grammar PDF, and contribution.txt were reviewed as a group.
+- All team members collaborated to thoroughly test the interpreter against new sample programs and validate output consistency.
+- Final milestone deliverables (sample programs, grammar, evaluator, README, contribution, and presentation PDF) were reviewed and polished as a team.

@@ -12,8 +12,10 @@
 Mint is a simple, beginner-friendly programming language being developed as part of our course project. It uses more readable and modern keywords.
 
 In this milestone, we’ve set up the project, defined our team structure, and started writing the grammar using ANTLR.
-Updated:
+Updated(1):
 We have finished writing the Evaluator for Mint. Our interpreter parses and executes .mint programs using ANTLR and a custom-built MintEvaluator that handles type checking, loops, conditionals, and arithmetic operations. The language is designed to be readable, minimal, and extensible.
+Updated(2):
+We have finished writing the complete interpreter for Mint. It parses and executes `.mint` programs using ANTLR and a custom-built `MintEvaluator` that handles type checking, arithmetic and logical expressions, loops, conditionals, and control statements. The language is designed to be readable, minimal, and extensible.
 ---
 
 ## Checkpoint 1:
@@ -37,6 +39,26 @@ We have finished writing the Evaluator for Mint. Our interpreter parses and exec
 
 ---
 
+## Checkpoint 3:
+
+- Refactored `MintEvaluator` logic to ensure correct handling of loop control (break and continue).  
+- Added support for nested loop evaluation and short-circuit boolean expressions.  
+- Implemented ternary operations with optional conditions.  
+- Verified evaluation consistency across grammar tree traversal.  
+- Expanded sample programs to include multiple expressions and type cases.
+
+---
+
+## Checkpoint 4:
+
+- Added 6 new sample programs to demonstrate complete language functionality.  
+- Verified all constructs including type errors, string operations, logical chaining, nested control flow, and loops.  
+- Ensured evaluator covers all rules defined in Mint.g4 grammar.  
+- Finalized grammar and interpreter logic with full coverage.  
+- Updated README, contribution details, and project packaging for final submission.
+
+---
+
 ## Tools We’re Using
 
 - **ANTLR 4.13.2** — for lexer and parser generation  
@@ -57,7 +79,7 @@ Since the language runs on Java and ANTLR, it should be platform-independent.
 
 ---
 
-## Project Structure (Milestone 1)
+## Project Structure (Final)
 .
 ├── Mint.g4
 ├── README.md
@@ -73,7 +95,13 @@ Since the language runs on Java and ANTLR, it should be platform-independent.
 │   ├── sample1.mint
 │   ├── sample2.mint
 │   ├── sample3.mint
-│   └── sample4.mint
+│   ├── sample4.mint
+│   ├── sample5.mint  
+│   ├── sample6.mint  
+│   ├── sample7.mint  
+│   ├── sample8.mint  
+│   ├── sample9.mint  
+│   └── sample10.mint  
 ├── doc
 │   ├── Milestone-2.pdf
 │   └── contribution.txt
@@ -90,10 +118,12 @@ Since the language runs on Java and ANTLR, it should be platform-independent.
     │   ├── MintParser.java
     │   └── MintVisitor.java
     └── runtime
-        └── MintMain.java
+        ├── MintMain.java
         └── MintEvaluator.java
 
-## Instructions to build, compile and execute Mint.
+---
+
+## Instructions to build, compile and execute Mint
 
 # Navigate to your project folder
 cd /path/to/ser502-group25/
@@ -116,10 +146,12 @@ java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint pro
 java -cp "build:antlr-4.13.2-complete.jar" org.antlr.v4.gui.TestRig gen.Mint program -gui data/sample1.mint
 
 4. How to execute the sample programs?
-    javac -cp "antlr-4.13.2-complete.jar" -d build src/gen/*.java src/runtime/*.java (to build class files - already existing)
-    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample3.mint (to execute the program and get output)
-    Example:
-    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample1.mint
-    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample2.mint
-    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample3.mint
-    java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample4.mint
+javac -cp "antlr-4.13.2-complete.jar" -d build src/gen/*.java src/runtime/*.java (to build class files - already existing)
+java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample3.mint (to execute the program and get output)
+Example:
+java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample1.mint
+java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample2.mint
+...
+java -cp "build:antlr-4.13.2-complete.jar" runtime.MintMain data/sample10.mint
+
+# FINAL PRESENTATION YOUTUBE VIDEO LINK:

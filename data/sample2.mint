@@ -1,3 +1,4 @@
+// Demonstrates while loop along with break and continue statements
 mint_int i = 0;
 
 mint_while (i < 5) {

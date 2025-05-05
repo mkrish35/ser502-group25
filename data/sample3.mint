@@ -1,3 +1,4 @@
+// Demonstrates use of ternary conditional expressions and logical chaining
 mint_int a = 10;
 mint_int b = 20;
 
